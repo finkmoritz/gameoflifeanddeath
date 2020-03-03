@@ -15,10 +15,11 @@ class ConwayGame implements Game {
 
   final RuleSet _ruleSet;
 
-  List<Player> _players;
+  final List<Player> players;
   int _currentPlayerIndex;
 
-  ConwayGame(this._board, this._ruleSet, this._players, this._currentPlayerIndex) {
+  ConwayGame(this._board, this._ruleSet, this.players, this._currentPlayerIndex) {
+    _boardBackup = _board.clone();
     _updateBoard();
   }
 
@@ -26,13 +27,13 @@ class ConwayGame implements Game {
   Board get board => _board;
 
   @override
-  Player get currentPlayer => _players[_currentPlayerIndex];
+  Player get currentPlayer => players[_currentPlayerIndex];
 
   @override
   void nextTurn() {
     _board = _ruleSet.apply(_board);
     _boardBackup = _board.clone();
-    _currentPlayerIndex = (_currentPlayerIndex+1) % _players.length;
+    _currentPlayerIndex = (_currentPlayerIndex+1) % players.length;
     _updateBoard();
   }
 

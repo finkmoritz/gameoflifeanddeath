@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:GameOfLifeAndDeath/GameOfLifeAndDeath.dart';
 import 'package:GameOfLifeAndDeath/src/board/board.dart';
 import 'package:GameOfLifeAndDeath/src/cell/cell_state.dart';
 import 'package:GameOfLifeAndDeath/src/cell/dead_cell.dart';
@@ -15,6 +16,7 @@ class ConwayGame implements Game {
 
   final RuleSet _ruleSet;
 
+  @override
   final List<Player> players;
   int _currentPlayerIndex;
 
@@ -62,5 +64,23 @@ class ConwayGame implements Game {
         _board.getCell(coord).nextState = nextState;
       }
     }
+  }
+
+  @override
+  Player get winner {
+    var winningPlayer;
+    for(var x=0; x<board.width; x++) {
+      for(var y=0; y<board.height; y++) {
+        var cell = board.getCell(Point(x,y));
+        if(cell is LivingCell) {
+          if(winningPlayer == null) {
+            winningPlayer = cell.player;
+          } else if(winningPlayer != cell.player) {
+            return null;
+          }
+        }
+      }
+    }
+    return winningPlayer;
   }
 }

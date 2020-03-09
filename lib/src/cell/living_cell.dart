@@ -8,12 +8,12 @@ class LivingCell extends Cell {
 
   LivingCell(this.player) : super(CellState.ALIVE);
 
-  LivingCell._withNextState(CellState nextState) : super(CellState.ALIVE) {
+  LivingCell._withNextState(this.player, CellState nextState) : super(CellState.ALIVE) {
     this.nextState = nextState;
   }
 
   @override
   Cell clone() {
-    return LivingCell._withNextState(nextState);
+    return LivingCell._withNextState(player, nextState);
   }
 }

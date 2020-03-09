@@ -6,8 +6,10 @@ import 'package:GameOfLifeAndDeath/src/player/player.dart';
 abstract class Game {
 
   Board get board;
+  List<Player> get players;
   Player get currentPlayer;
   void toggleCell(Point coord);
   void undoChanges();
   void nextTurn();
+  Player get winner;
 }

@@ -78,6 +78,12 @@ void _printBoard(Game game) {
     }
     _print('\n', AnsiPen());
   }
+  for(Player player in game.players) {
+    for(var n=0; n<game.getMoves(player); n++) {
+      _print('O', _playerPen(player)..black(bg: true));
+    }
+    _print('\n', AnsiPen());
+  }
 }
 
 void _print(String text, AnsiPen pen) {

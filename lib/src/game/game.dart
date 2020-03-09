@@ -12,4 +12,5 @@ abstract class Game {
   void undoChanges();
   void nextTurn();
   Player get winner;
+  int getMoves(Player player);
 }

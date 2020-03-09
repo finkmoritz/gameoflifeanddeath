@@ -20,8 +20,15 @@ class ConwayGame implements Game {
   final List<Player> players;
   int _currentPlayerIndex;
 
+  final Map _nMoves = {};
+  List _toggledCells = [];
+
   ConwayGame(this._board, this._ruleSet, this.players, this._currentPlayerIndex) {
     _boardBackup = _board.clone();
+    for(var i=0; i<players.length; i++) {
+      _nMoves[players[i]] = 0;
+    }
+    _nMoves[currentPlayer] = 1;
     _updateBoard();
   }
 
@@ -36,6 +43,8 @@ class ConwayGame implements Game {
     _board = _ruleSet.apply(_board);
     _boardBackup = _board.clone();
     _currentPlayerIndex = (_currentPlayerIndex+1) % players.length;
+    _nMoves[currentPlayer]++;
+    _toggledCells = [];
     _updateBoard();
   }
 
@@ -46,6 +55,15 @@ class ConwayGame implements Game {
       _board.setCell(coord, DeadCell());
     } else if(cell.state == CellState.DEAD) {
       _board.setCell(coord, LivingCell(currentPlayer));
+    }
+    if(_toggledCells.contains(cell)) {
+      _nMoves[currentPlayer]++;
+    } else {
+      if(_nMoves[currentPlayer] > 0) {
+        _nMoves[currentPlayer]--;
+      } else {
+        throw Exception('Not allowed!');
+      }
     }
     _updateBoard();
   }
@@ -82,5 +100,10 @@ class ConwayGame implements Game {
       }
     }
     return winningPlayer;
+  }
+
+  @override
+  int getMoves(Player player) {
+    return _nMoves[player];
   }
 }
